@@ -14,19 +14,23 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@langchain/community": "^0.3.17",
     "@langchain/core": "^0.3.20",
     "@langchain/langgraph": "^0.2.24",
     "@langchain/openai": "^0.3.14",
+    "cheerio": "^1.0.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "langchain": "^0.3.6",
     "nodemon": "^3.1.7",
+    "string-similarity": "^4.0.4",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.1",
+    "@types/string-similarity": "^4.0.2",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "prettier": "^3.4.1",
