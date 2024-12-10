@@ -12,7 +12,7 @@ export const callExtractAsset = async (message: string) => {
 
   // TODO: Currently not at best performance - improve later
   const outputParser = StructuredOutputParser.fromNamesAndDescriptions({
-    asset: "The name of the cryptocurrency asset and save it in the token key e.g BTC, ETH, DOGE",
+    asset: "The names of the cryptocurrency assets. Convert the full name to its corresponding token symbol (e.g., Bitcoin to BTC, Ethereum to ETH, etc.).",
   });
 
   const chain = prompt.pipe(model).pipe(outputParser);
