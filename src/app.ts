@@ -39,7 +39,7 @@ app.post('/api/v1/chat', async (req, res) => {
             historic_data.push(
               {
                   asset: targetAsset[i],
-                  data: response.data
+                  data: typeof response === 'string' ? response : response.data
               }
             )
         }
