@@ -1,11 +1,11 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import { v4 as uuidv4 } from "uuid";
-import { workflow } from './modules/workflow';
-import { classifyIntent } from './modules/classifyIntent';
-import { callExtractAsset } from './modules/callExtractAssets';
-import { axiosService } from './modules/axios';
-
+import { workflow } from './modules/workflow'
+import { classifyIntent } from './modules/classifyIntent'
+import { callExtractAsset } from './modules/callExtractAssets'
+import { axiosService } from './modules/axios'
+import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
 dotenv.config();
 
 const app: Application = express();
@@ -69,6 +69,27 @@ app.post('/api/v1/chat', async (req, res) => {
                     intent: intent,
                     asset: targetAsset,
                     historic_data: historic_data,
+                },
+            })}\n\n`);
+        } else if (intent.includes("trade history")) {
+            const user_trade_history = await axiosService.getHistoricData("BTC")
+            const userTradeHistory = typeof user_trade_history === 'string' ? user_trade_history :  JSON.stringify(user_trade_history?.data);
+            const chatPrompt = ChatPromptTemplate.fromMessages([
+                { role: 'system', content: `Based on the user's trade history: ${userTradeHistory}` },
+                { role: 'user', content: message }
+            ]);
+            
+            const response =  await workflow( message, { configurable: { thread_id } }, chatPrompt);
+            
+             // Final response
+             res.write(`data: ${JSON.stringify({
+                status: "success",
+                message: "Message sent successfully",
+                data: {
+                    messages: response.messages[response.messages.length - 1]?.content,
+                    thread_id: thread_id,
+                    intent: intent,
+                    trade_history: userTradeHistory
                 },
             })}\n\n`);
         } else {

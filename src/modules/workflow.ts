@@ -15,7 +15,7 @@ import { HumanMessage } from '@langchain/core/messages'
 // Initialize memory to persist state between graph runs
 const agentCheckpointer = new MemorySaver()
 
-export const workflow = async (message: string, config: any) => {
+export const workflow = async (message: string, config: any, promptArgs?: any) => {
   // Define the tools for the agent to use
   const toolNode = new ToolNode(tools)
 
@@ -47,7 +47,7 @@ export const workflow = async (message: string, config: any) => {
   }
 
   async function callModel(state: typeof MessagesAnnotation.State) {
-    const chain = prompt.pipe(model)
+    const chain = promptArgs? promptArgs.pipe(model) : prompt.pipe(model)
     const response = await chain.invoke(state)
     // We return a list, because this will get added to the existing list
     return { messages: [response] }
