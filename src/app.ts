@@ -1,6 +1,5 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
-import { v4 as uuidv4 } from "uuid";
 import { workflow } from './modules/workflow'
 import { classifyIntent } from './modules/classifyIntent'
 import { callExtractAsset } from './modules/callExtractAssets'
@@ -21,7 +20,7 @@ app.get('/', (req, res) => {
 app.post('/api/v1/chat', async (req, res) => {
     const message = req.body.message;
     console.log('Message:', message);
-    const thread_id = req.body.thread_id || uuidv4();
+    const thread_id = req.body.thread_id;
 
     // Essential headers for continuous streaming
     res.setHeader('Content-Type', 'text/event-stream');
