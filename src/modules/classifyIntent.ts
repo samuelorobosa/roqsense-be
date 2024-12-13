@@ -17,7 +17,6 @@ export const classifyIntent = async(query: string) => {
 
   const outputParser = new StringOutputParser();
   const chain = prompt.pipe(model).pipe(outputParser);
-
   return await chain.invoke({
     query
   });
