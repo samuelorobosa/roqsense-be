@@ -5,12 +5,14 @@ import { classifyIntent } from './modules/classifyIntent'
 import { callExtractAsset } from './modules/callExtractAssets'
 import { axiosService } from './modules/axios'
 import { ChatPromptTemplate } from '@langchain/core/prompts';
+import cors from 'cors';
 dotenv.config();
 
 const app: Application = express();
 const PORT = 8000;
 
 // Middleware to parse JSON request bodies
+app.use(cors())
 app.use(express.json());
 
 app.get('/', (req, res) => {
