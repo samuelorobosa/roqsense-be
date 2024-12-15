@@ -19,7 +19,6 @@ app.get('/', (req, res) => {
 
 app.post('/api/v1/chat', async (req, res) => {
     const message = req.body.message;
-    console.log('Message:', message);
     const thread_id = req.body.thread_id;
 
     // Essential headers for continuous streaming
@@ -61,10 +60,10 @@ app.post('/api/v1/chat', async (req, res) => {
         if (intent.includes("crypto asset")) {
             const { asset } = await callExtractAsset(message);
             const response = await workflow(message, { configurable: { thread_id } });
-
+            
             const targetAsset = asset.split(/[\s,]+/);
             const historic_data = [];
-
+            
             for (let i = 0; i < targetAsset.length; i++) {
                 // Fetch historical data for each asset
                 const response = await axiosService.getHistoricData(targetAsset[i]);
@@ -75,11 +74,11 @@ app.post('/api/v1/chat', async (req, res) => {
                         asset: targetAsset[i],
                         data: response.data,
                     });
-
+                    
                     res.write(`data: ${JSON.stringify({ status: "processing", step: "historic_data_retrieved", asset: targetAsset[i], data: response.data })}\n\n`);
                 }
             }
-
+            
             // Stream the final response
             await streamResponse(response);
 
