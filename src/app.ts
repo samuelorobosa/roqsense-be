@@ -138,9 +138,11 @@ app.post('/api/v1/chat', async (req, res) => {
         }
     } catch (error) {
         if (error instanceof Error) {
-            res.write(`data: ${JSON.stringify({ status: "error", step: "processing_failed", error: error.message })}\n\n`);
+            console.log(`data: ${JSON.stringify({ status: "error", step: "processing_failed", error: error.message })}\n\n`);
+            res.write(`data: ${JSON.stringify({ status: "error", step: "processing_failed", error: 'Sorry, I could not find information on that. Try again' })}\n\n`);
         } else {
-            res.write(`data: ${JSON.stringify({ status: "error", step: "processing_failed", error: "Unexpected error" })}\n\n`);
+            console.log(`data: ${JSON.stringify({ status: "error", step: "processing_failed", error: "Unexpected error" })}\n\n`);
+            res.write(`data: ${JSON.stringify({ status: "error", step: "processing_failed", error: "Sorry, I could not find information on that. Try again." })}\n\n`);
         }
     } finally {
         res.write('event: end\n');

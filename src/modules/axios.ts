@@ -7,7 +7,8 @@ export class axiosService {
       return await axios.get(url)
     } catch (error) {
       if (error instanceof Error) {
-        return `Error retrieving chart data for ${asset}: ${error.message}`
+        console.log(`Error retrieving chart data for ${asset}: ${error.message}`)
+        return `Sorry, I could not find information on that. Please try again.`
       }
       return `Unexpected error retrieving chart data for ${asset}`
     }
